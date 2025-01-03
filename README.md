@@ -21,9 +21,9 @@ A web interface for yt-dlp built with Rust + Actix Web.
 ## Prerequisites
 
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
-- yt-dlp (must be in system PATH, for downloading videos)
-- ffmpeg (must be in system PATH, for merging video and audio)
-- aria2c (optional, for multi-threaded downloading)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) (must be in system PATH, for downloading videos)
+- [ffmpeg](https://www.ffmpeg.org/download.html) (must be in system PATH, for merging video and audio)
+- [aria2c](https://github.com/aria2/aria2) (optional, for multi-threaded downloading)
 
 ## Quick Start
 
