@@ -30,7 +30,7 @@
 1. 克隆仓库：
 
 ```bash
-git clone https://github.com/yourusername/ydui.git
+git clone https://github.com/cap153/ydui.git
 cd ydui
 ```
 

@@ -30,7 +30,7 @@ A web interface for yt-dlp built with Rust + Actix Web.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ydui.git
+git clone https://github.com/cap153/ydui.git
 cd ydui
 ```
 
