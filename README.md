@@ -56,6 +56,7 @@ For websites requiring login (e.g., YouTube member videos), you need to provide 
 
 1. Paste cookie text directly into the input box
 2. Upload a file containing cookies
+3. Using yt-dlp's --cookies-from-browser option in conjunction with the --cookies option, for example: paste `--cookies-from-browser chrome --cookies cookies.txt` into the Custom Arguments input box
 
 For instructions on how to get cookies, please refer to [yt-dlp Cookie FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
 
