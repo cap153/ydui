@@ -4,7 +4,7 @@ A web interface for yt-dlp built with Rust + Actix Web.
 
 [中文文档](README_zh.md)  
 [Video tutorial: Download the demonstration and install under windows(English subtitles can be turned on)](https://www.youtube.com/watch?v=hLKCX9bgsqA&t=72s)  
-[Video tutorial: Summary of ydui issues(English subtitles can be turned on)](https://www.youtube.com/watch?v=hLKCX9bgsqA&t=72s)
+[Video tutorial: Summary of ydui issues(English subtitles can be turned on)](https://www.youtube.com/watch?v=IG6wUZaYCes)
 
 
 ## Features
