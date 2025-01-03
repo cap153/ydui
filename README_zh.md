@@ -56,6 +56,7 @@ cargo build --release
 
 1. 直接粘贴 cookie 文本到输入框
 2. 上传包含 cookie 的文件
+3. 将 yt-dlp 的 --cookies-from-browser 选项与 --cookies 选项结合使用，例如：将 `--cookies-from-browser chrome --cookies cookies.txt` 粘贴到自定义参数输入框中
 
 获取 cookie 的方法请参考 [yt-dlp Cookie FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
 
