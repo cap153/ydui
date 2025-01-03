@@ -2,7 +2,9 @@
 
 一个使用 Rust + Actix Web 开发的 yt-dlp Web 界面。
 
-[English](README.md)
+[English](README.md)  
+[视频教程：下载演示并在windows下安装](https://www.bilibili.com/video/BV1Gs6mYYEXe?vd_source=670195c083a81e0e203115ecef2b87a1&spm_id_from=333.788.videopod.sections)  
+[视频教程：ydui问题总结](https://www.bilibili.com/video/BV1Ay6mYSEe9?vd_source=670195c083a81e0e203115ecef2b87a1&spm_id_from=333.788.videopod.sections)
 
 ## 功能特点
 
