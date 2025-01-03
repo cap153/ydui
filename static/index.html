@@ -1,0 +1,111 @@
+<!--
+  Copyright (c) 2025 cap153 <cap15369@gmail.com>
+
+  This source code is licensed under the MIT license found in the
+  LICENSE file in the root directory of this source tree.
+-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YDUI</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- 下载列表侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <h2 data-i18n="downloads-title">下载列表</h2>
+                </div>
+                <div class="sidebar-body">
+                    <div id="downloads-container"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="form-container">
+                <div class="header">
+                    <h1>YDUI</h1>
+                    <button id="lang-switch" class="lang-btn">EN</button>
+                </div>
+                
+                <div class="main-form">
+                    <div class="input-group">
+                        <label for="video-url" data-i18n="video-url">视频链接：</label>
+                        <input type="text" id="video-url" data-i18n-placeholder="video-url-placeholder" placeholder="请输入YouTube视频链接">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="video-quality" data-i18n="video-quality">视频画质：</label>
+                        <select id="video-quality">
+                            <option value="best" data-i18n="quality-best" selected>最佳画质</option>
+                            <option value="none" data-i18n="quality-none">无</option>
+                            <option value="2160">2160p (4K)</option>
+                            <option value="1440">1440p (2K)</option>
+                            <option value="1080">1080p (FHD)</option>
+                            <option value="720">720p (HD)</option>
+                            <option value="480">480p (SD)</option>
+                            <option value="360">360p</option>
+                            <option value="240">240p</option>
+                            <option value="144">144p</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="proxy" data-i18n="proxy">代理设置：</label>
+                        <input type="text" id="proxy" data-i18n-placeholder="proxy-placeholder" placeholder="例如: socks5://127.0.0.1:1080">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="cookie-text" data-i18n="cookie-text">Cookie 内容：</label>
+                        <textarea id="cookie-text" data-i18n-placeholder="cookie-text-placeholder" placeholder="粘贴 cookie 内容"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="cookie-file" data-i18n="cookie-file">或上传 Cookie 文件：</label>
+                        <input type="file" id="cookie-file" accept=".txt">
+                    </div>
+
+                    <div class="input-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="use-aria2">
+                            <span data-i18n="use-aria2">启用 Aria2 下载器（多线程下载）</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="custom-args" data-i18n="custom-args">自定义参数：</label>
+                        <input type="text" id="custom-args" data-i18n-placeholder="custom-args-placeholder" placeholder="例如: --extract-audio --audio-format mp3">
+                    </div>
+
+                    <button id="download-btn" data-i18n="download-btn">开始下载</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 日志面板 -->
+        <div class="logs-panel">
+            <div class="logs-toggle" id="logs-toggle" title="展开/收起下载日志">
+                <span class="toggle-icon">◀</span>
+            </div>
+            <div class="logs-content-wrapper">
+                <div class="logs-header">
+                    <h2 data-i18n="logs-title">下载日志</h2>
+                    <button id="clear-logs" data-i18n="clear-logs">清除日志</button>
+                    <button id="copy-logs" data-i18n="copy-logs">复制日志</button>
+                </div>
+                <pre id="logs-container" class="logs-content"></pre>
+            </div>
+        </div>
+    </div>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html> 

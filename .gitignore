@@ -1,0 +1,23 @@
+# Build artifacts
+/target/
+
+# Downloaded videos
+/downloads/*
+!/downloads/.gitkeep
+
+# IDE files
+.idea/
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Cookies file
+cookies.txt
+
+# Release packages
+*.tar.gz
+*.zip
+ydui-release/
+ydui-win64/ 
