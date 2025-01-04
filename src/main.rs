@@ -322,14 +322,25 @@ async fn restart_server() -> Result<HttpResponse> {
     // 获取当前可执行文件路径
     let current_exe = std::env::current_exe()?;
     
-    // 直接在后台重启服务
-    StdCommand::new("sh")
-        .arg("-c")
-        .arg(format!(
-            "pkill ydui; {} &",  // 先结束当前进程，然后启动新进程
-            current_exe.display()
-        ))
-        .spawn()?;
+    // 检查是否在 Docker 环境中运行
+    let in_docker = std::path::Path::new("/.dockerenv").exists();
+    
+    if in_docker {
+        // Docker 环境下使用 kill -1 发送 SIGHUP 信号
+        StdCommand::new("sh")
+            .arg("-c")
+            .arg("kill -1 1")  // 发送 SIGHUP 到 PID 1
+            .spawn()?;
+    } else {
+        // 非 Docker 环境下使用原来的重启方式
+        StdCommand::new("sh")
+            .arg("-c")
+            .arg(format!(
+                "pkill ydui; {} &",
+                current_exe.display()
+            ))
+            .spawn()?;
+    }
 
     Ok(HttpResponse::Ok().finish())
 }
