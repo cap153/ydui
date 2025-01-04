@@ -33,7 +33,10 @@ const translations = {
         'logs-copied': 'Logs copied to clipboard',
         'loading-files': 'Loading downloaded files...',
         'no-files': 'No downloaded files',
-        'load-failed': 'Failed to load files:'
+        'load-failed': 'Failed to load files:',
+        'restart-server': 'Restart Server',
+        'restart-success': 'Server is restarting...',
+        'restart-failed': 'Failed to restart server:'
     },
     zh: {
         'video-url': '视频链接：',
@@ -62,7 +65,10 @@ const translations = {
         'logs-copied': '日志已复制到剪贴板',
         'loading-files': '加载已下载文件列表...',
         'no-files': '暂无已下载文件',
-        'load-failed': '加载失败:'
+        'load-failed': '加载失败:',
+        'restart-server': '重启服务',
+        'restart-success': '服务器正在重启...',
+        'restart-failed': '重启服务器失败：'
     }
 };
 

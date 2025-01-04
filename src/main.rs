@@ -22,6 +22,7 @@ use actix_files;
 use serde_json::json;
 use std::process::Stdio;
 use std::env;
+use std::process::Command as StdCommand;
 
 const PORT: u16 = 2333;
 const DOWNLOADS_DIR: &str = "downloads";
@@ -317,6 +318,22 @@ async fn list_downloads() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().json(files))
 }
 
+async fn restart_server() -> Result<HttpResponse> {
+    // 获取当前可执行文件路径
+    let current_exe = std::env::current_exe()?;
+    
+    // 直接在后台重启服务
+    StdCommand::new("sh")
+        .arg("-c")
+        .arg(format!(
+            "pkill ydui; {} &",  // 先结束当前进程，然后启动新进程
+            current_exe.display()
+        ))
+        .spawn()?;
+
+    Ok(HttpResponse::Ok().finish())
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
@@ -346,6 +363,7 @@ async fn main() -> std::io::Result<()> {
                     .route("/download", web::post().to(start_download))
                     .route("/status/{id}", web::get().to(get_status))
                     .route("/list", web::get().to(list_downloads))
+                    .route("/restart", web::post().to(restart_server))
             )
             .service(
                 actix_files::Files::new("/downloads", DOWNLOADS_DIR)

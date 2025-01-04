@@ -23,7 +23,8 @@ class DownloadManager {
             logsToggle: document.getElementById('logs-toggle'),
             cookieText: document.getElementById('cookie-text'),
             cookieFile: document.getElementById('cookie-file'),
-            sidebar: document.querySelector('.sidebar')
+            sidebar: document.querySelector('.sidebar'),
+            restartBtn: document.getElementById('restart-server')
         };
 
         // 检查必需元素
@@ -81,7 +82,8 @@ class DownloadManager {
             logsToggle: () => {
                 this.logsPanel.classList.toggle('collapsed');
                 localStorage.setItem('ydui-logs-collapsed', this.logsPanel.classList.contains('collapsed'));
-            }
+            },
+            restartBtn: () => this.restartServer()
         };
 
         // 修改事件监听的方式
@@ -320,6 +322,18 @@ class DownloadManager {
             alert(window.i18n.getText('logs-copied'));
         } catch (err) {
             console.error('Failed to copy logs:', err);
+        }
+    }
+
+    async restartServer() {
+        if (!confirm('确定要重启服务器吗？')) return;
+        
+        try {
+            await fetch('/api/restart', {
+                method: 'POST'
+            });
+        } catch (error) {
+            alert(window.i18n.getText('restart-failed') + error.message);
         }
     }
 }

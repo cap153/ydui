@@ -312,6 +312,7 @@ button#download-btn:hover::after {
     margin: 0;
     flex-grow: 1;
     color: #333;
+    font-size: 1.2em;
 }
 
 .logs-header button {
@@ -545,4 +546,19 @@ button#download-btn:hover::after {
     .sidebar-toggle {
         display: none;
     }
+}
+
+#restart-server {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#restart-server:hover {
+    background-color: #c82333;
 } 
