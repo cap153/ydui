@@ -12,10 +12,9 @@
 # System files
 .DS_Store
 Thumbs.db
-pid.txt
 
 # Cookies file
-cookies.txt
+*.txt
 
 # Release packages
 *.tar.gz
