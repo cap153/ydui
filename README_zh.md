@@ -101,9 +101,10 @@ docker run -itd \
 
 对于需要登录的网站（如 YouTube 会员视频），你需要提供有效的 cookie。你可以：
 
-1. 直接粘贴 cookie 文本到输入框
-2. 上传包含 cookie 的文件
-3. 将 yt-dlp 的 --cookies-from-browser 选项与 --cookies 选项结合使用，例如：将 `--cookies-from-browser chrome --cookies cookies.txt` 粘贴到自定义参数输入框中（支持的浏览器有：brave、chrome、chromium、edge、firefox、opera、safari、vivaldi、whale）
+1. 将`cookies.txt`文件放置在项目根目录或可执行文件所在的目录中
+2. 将 yt-dlp 的 --cookies-from-browser 选项与 --cookies 选项结合使用，例如：将 `--cookies-from-browser chrome --cookies cookies.txt` 粘贴到自定义参数输入框中（支持的浏览器有：brave、chrome、chromium、edge、firefox、opera、safari、vivaldi、whale）
+3. 直接粘贴 cookie 文本到输入框（**如果当前设备有公网IP，不建议使用此方法**）
+4. 上传包含 cookie 的文件（**如果当前设备有公网IP，不建议使用此方法**）
 
 获取 cookie 的方法请参考 [yt-dlp Cookie FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
 
