@@ -44,6 +44,49 @@ cargo run
 
 3. 在浏览器中打开 http://127.0.0.1:2333 或 http://[::]:2333
 
+## Docker 部署
+
+### 方式一：从 Docker Hub 拉取
+```bash
+sudo docker run -itd \
+  --name ydui \
+  --restart=always \
+  --net=host \
+  -v /你的下载目录:/downloads \
+  cap153/ydui:latest
+```
+
+### 方式二：从源码构建
+1. 构建镜像：
+```bash
+docker build -t ydui .
+```
+
+2. 运行容器：
+```bash
+mkdir downloads
+docker-compose up -d
+```
+
+或者不使用 docker-compose：
+```bash
+docker run -itd \
+  --name ydui \
+  --restart=always \
+  -p 2333:2333 \
+  -v /你的下载目录:/downloads \
+  ydui
+```
+
+注意：
+- 将 `/你的下载目录` 替换为实际的下载目录路径
+- 网络模式：
+  1. `--net=host`：使用主机网络，便于使用局域网代理，通过 2333 端口访问
+  2. 端口映射 (`-p 2333:2333`)：使用桥接网络，通过映射端口访问
+  3. `macvlan`：高级网络模式，可用但需要额外配置
+- 方式一使用主机网络以便于代理访问
+- 方式二使用端口映射以获得更好的容器隔离性
+
 ## 构建发布版本
 
 ```bash

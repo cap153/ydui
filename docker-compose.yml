@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ydui:
+    build: .
+    container_name: ydui
+    restart: always
+    ports:
+      - "2333:2333"
+    volumes:
+      - ./downloads:/downloads 
