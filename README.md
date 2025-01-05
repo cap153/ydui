@@ -117,6 +117,8 @@ sudo docker run -itd \
 ### Method 2: Build from source
 1. Build image:
 ```bash
+git clone https://github.com/cap153/ydui.git
+cd ydui
 docker build -t ydui .
 ```
 

@@ -59,6 +59,8 @@ sudo docker run -itd \
 ### 方式二：从源码构建
 1. 构建镜像：
 ```bash
+git clone https://github.com/cap153/ydui.git
+cd ydui
 docker build -t ydui .
 ```
 

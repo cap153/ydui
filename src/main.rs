@@ -322,13 +322,25 @@ async fn restart_server() -> Result<HttpResponse> {
     // 获取当前可执行文件路径
     let current_exe = std::env::current_exe()?;
     
-    // 直接在后台重启服务
-    StdCommand::new("sh")
-        .arg("-c")
-        .arg(format!(
-            "pkill ydui; {} &",  // 先结束当前进程，然后启动新进程
+    // 复用判断操作系统的逻辑
+    let is_windows = env::consts::OS == "windows";
+    
+    // 根据操作系统使用不同的重启命令
+    let cmd = if is_windows {
+        format!(
+            "taskkill /F /IM ydui.exe && start {}",
             current_exe.display()
-        ))
+        )
+    } else {
+        format!(
+            "pkill ydui; {} &",
+            current_exe.display()
+        )
+    };
+
+    StdCommand::new(if is_windows { "cmd" } else { "sh" })
+        .arg(if is_windows { "/C" } else { "-c" })
+        .arg(cmd)
         .spawn()?;
 
     Ok(HttpResponse::Ok().finish())
