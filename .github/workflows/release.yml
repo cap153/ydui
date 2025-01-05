@@ -6,51 +6,73 @@ on:
       - "v*.*.*"
 
 jobs:
-  build:
-    name: Build Release
+  build-linux-gnu:
+    name: Build Linux GNU
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - x86_64-unknown-linux-gnu     # Linux (x86_64)
-          - x86_64-unknown-linux-musl    # Linux (x86_64, MUSL)
-          - x86_64-pc-windows-msvc       # Windows (x86_64)
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-
-      - name: Install dependencies (Ubuntu)
-        if: matrix.target == 'x86_64-unknown-linux-gnu'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-
-      - name: Install dependencies (MUSL)
-        if: matrix.target == 'x86_64-unknown-linux-musl'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y musl-tools
 
       - name: Build binary
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --target ${{ matrix.target }}
+        run: cargo build --release
 
       - name: Prepare binary
         shell: bash
         run: |
           mkdir -p release
-          if [[ "${{ matrix.target }}" == *"windows"* ]]; then
-            cp target/${{ matrix.target }}/release/ydui.exe release/ydui_${{ matrix.target }}.exe
-          else
-            cp target/${{ matrix.target }}/release/ydui release/ydui_${{ matrix.target }}
-          fi
+          cp target/release/ydui release/ydui_linux_gnu
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: release/*
+
+  build-linux-musl:
+    name: Build Linux MUSL
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apk add --no-cache curl rust cargo
+
+      - name: Build binary
+        run: cargo build --release
+
+      - name: Prepare binary
+        run: |
+          mkdir -p release
+          cp target/release/ydui release/ydui_linux_musl
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: release/*
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build binary
+        run: cargo build --release
+
+      - name: Prepare binary
+        shell: bash
+        run: |
+          mkdir -p release
+          cp target/release/ydui.exe release/ydui_windows.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -60,7 +82,7 @@ jobs:
 
   release:
     name: Create Release
-    needs: build
+    needs: [build-linux-gnu, build-linux-musl, build-windows]
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
