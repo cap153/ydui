@@ -15,7 +15,6 @@ jobs:
           - x86_64-unknown-linux-gnu     # Linux (x86_64)
           - x86_64-unknown-linux-musl    # Linux (x86_64, MUSL)
           - x86_64-pc-windows-msvc       # Windows (x86_64)
-          - x86_64-apple-darwin          # macOS (x86_64)
 
     steps:
       - uses: actions/checkout@v4
