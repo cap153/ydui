@@ -31,6 +31,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
 
+      - name: Install dependencies (MUSL)
+        if: matrix.target == 'x86_64-unknown-linux-musl'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+
       - name: Build binary
         uses: actions-rs/cargo@v1
         with:
@@ -40,10 +46,7 @@ jobs:
       - name: Prepare binary
         shell: bash
         run: |
-          # 创建发布目录
           mkdir -p release
-          
-          # 根据目标平台设置二进制文件名
           if [[ "${{ matrix.target }}" == *"windows"* ]]; then
             cp target/${{ matrix.target }}/release/ydui.exe release/ydui_${{ matrix.target }}.exe
           else
