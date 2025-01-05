@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p release
-          cp target/release/ydui.exe release/ydui_windows.exe
+          cp target/release/ydui.exe release/ydui.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
