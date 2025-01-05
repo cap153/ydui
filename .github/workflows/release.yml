@@ -5,6 +5,10 @@ on:
     tags:
       - "v*.*.*"
 
+# 添加权限配置
+permissions:
+  contents: write
+
 jobs:
   build-linux-gnu:
     name: Build Linux GNU
@@ -84,6 +88,9 @@ jobs:
     name: Create Release
     needs: [build-linux-gnu, build-linux-musl, build-windows]
     runs-on: ubuntu-latest
+    # 也可以在这里单独设置权限
+    permissions:
+      contents: write
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
