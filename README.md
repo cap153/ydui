@@ -102,9 +102,10 @@ Note:
 
 For websites requiring login (e.g., YouTube member videos), you need to provide valid cookies. You can:
 
-1. Paste cookie text directly into the input box
-2. Upload a file containing cookies
-3. Using yt-dlp's --cookies-from-browser option in conjunction with the --cookies option, for example: paste `--cookies-from-browser chrome --cookies cookies.txt` into the Custom Arguments input box(Supported browsers are: brave, chrome, chromium, edge, firefox, opera, safari, vivaldi, whale)
+1. Place the cookie.txt file in the project root directory or in the directory where the executable file is located
+2. Using yt-dlp's --cookies-from-browser option in conjunction with the --cookies option, for example: paste `--cookies-from-browser chrome --cookies cookies.txt` into the Custom Arguments input box(Supported browsers are: brave, chrome, chromium, edge, firefox, opera, safari, vivaldi, whale)
+3. Paste cookie text directly into the input box(**This method is not recommended if the current device has a public network IP**)
+4. Upload a file containing cookies(**This method is not recommended if the current device has a public network IP**)
 
 For instructions on how to get cookies, please refer to [yt-dlp Cookie FAQ](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
 
