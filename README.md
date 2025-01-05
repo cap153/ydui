@@ -53,6 +53,51 @@ cargo build --release
 
 The executable will be available in the `target/release` directory.
 
+## Docker Deployment
+
+### Method 1: Pull from Docker Hub
+```bash
+sudo docker run -itd \
+  --name ydui \
+  --restart=always \
+  --net=host \
+  -v /path/to/downloads:/downloads \
+  cap153/ydui:latest
+```
+
+### Method 2: Build from source
+1. Build image:
+```bash
+git clone https://github.com/cap153/ydui.git
+cd ydui
+docker build -t ydui .
+```
+
+2. Run container:
+```bash
+mkdir downloads
+docker-compose up -d
+```
+
+Or run without docker-compose:
+```bash
+docker run -itd \
+  --name ydui \
+  --restart=always \
+  -p 2333:2333 \
+  -v /path/to/downloads:/downloads \
+  ydui
+```
+
+Note:
+- Replace `/path/to/downloads` with your actual download directory
+- Network modes:
+  1. `--net=host`: Uses host network, good for using LAN proxy, access via port 2333
+  2. Port mapping (`-p 2333:2333`): Uses bridge network, access via mapped port
+  3. `macvlan`: Advanced network mode, can be used but requires additional configuration
+- Method 1 uses host network for easier proxy access
+- Method 2 uses port mapping for better container isolation
+
 ## Cookie Setup
 
 For websites requiring login (e.g., YouTube member videos), you need to provide valid cookies. You can:
@@ -102,47 +147,3 @@ ydui/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Docker Deployment
-
-### Method 1: Pull from Docker Hub
-```bash
-sudo docker run -itd \
-  --name ydui \
-  --restart=always \
-  --net=host \
-  -v /path/to/downloads:/downloads \
-  cap153/ydui:latest
-```
-
-### Method 2: Build from source
-1. Build image:
-```bash
-git clone https://github.com/cap153/ydui.git
-cd ydui
-docker build -t ydui .
-```
-
-2. Run container:
-```bash
-mkdir downloads
-docker-compose up -d
-```
-
-Or run without docker-compose:
-```bash
-docker run -itd \
-  --name ydui \
-  --restart=always \
-  -p 2333:2333 \
-  -v /path/to/downloads:/downloads \
-  ydui
-```
-
-Note:
-- Replace `/path/to/downloads` with your actual download directory
-- Network modes:
-  1. `--net=host`: Uses host network, good for using LAN proxy, access via port 2333
-  2. Port mapping (`-p 2333:2333`): Uses bridge network, access via mapped port
-  3. `macvlan`: Advanced network mode, can be used but requires additional configuration
-- Method 1 uses host network for easier proxy access
-- Method 2 uses port mapping for better container isolation

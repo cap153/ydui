@@ -44,6 +44,14 @@ cargo run
 
 3. 在浏览器中打开 http://127.0.0.1:2333 或 http://[::]:2333
 
+## 构建发布版本
+
+```bash
+cargo build --release
+```
+
+构建完成后，可执行文件将位于 `target/release` 目录中。
+
 ## Docker 部署
 
 ### 方式一：从 Docker Hub 拉取
@@ -88,14 +96,6 @@ docker run -itd \
   3. `macvlan`：高级网络模式，可用但需要额外配置
 - 方式一使用主机网络以便于代理访问
 - 方式二使用端口映射以获得更好的容器隔离性
-
-## 构建发布版本
-
-```bash
-cargo build --release
-```
-
-构建完成后，可执行文件将位于 `target/release` 目录中。
 
 ## Cookie 设置
 
