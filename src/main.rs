@@ -53,6 +53,7 @@ impl DownloadStatus {
 
 struct AppState {
     downloads: RwLock<HashMap<String, DownloadStatus>>,
+    semaphore: tokio::sync::Semaphore,
 }
 
 #[derive(Deserialize, Debug)]
@@ -168,25 +169,44 @@ async fn start_download(
     }
 
     // 初始化下载状态
-    data.downloads.write().await.insert(download_id.clone(), DownloadStatus::new());
-
-    let (mut cmd, args) = build_yt_dlp_command(&req, DOWNLOADS_DIR, &cookie_path);
-    println!("\n执行命令: yt-dlp {}", args.join(" "));
-
-    cmd.args(&args)
-       .stdout(Stdio::piped())
-       .stderr(Stdio::piped());
+    {
+        let mut downloads = data.downloads.write().await;
+        let mut status = DownloadStatus::new();
+        status.status = "排队中".to_string();
+        downloads.insert(download_id.clone(), status);
+    }
 
     let data_clone = data.clone();
     let download_id_clone = download_id.clone();
 
     tokio::spawn(async move {
-        handle_download_process(cmd, download_path, data_clone, download_id_clone).await;
+        // 等待信号量
+        let permit = data_clone.semaphore.acquire().await.unwrap();
+        
+        // 更新状态为下载中
+        {
+            let mut downloads = data_clone.downloads.write().await;
+            if let Some(status) = downloads.get_mut(&download_id_clone) {
+                status.status = "下载中".to_string();
+            }
+        }
+
+        let (mut cmd, args) = build_yt_dlp_command(&req, DOWNLOADS_DIR, &cookie_path);
+        println!("\n执行命令: yt-dlp {}", args.join(" "));
+
+        cmd.args(&args)
+           .stdout(Stdio::piped())
+           .stderr(Stdio::piped());
+
+        handle_download_process(cmd, download_path, data_clone.clone(), download_id_clone).await;
+        
+        // 释放信号量
+        drop(permit);
     });
 
     Ok(HttpResponse::Ok().json(DownloadResponse {
         id: download_id,
-        message: "下载任务已开始".to_string(),
+        message: "下载任务已加入队列".to_string(),
     }))
 }
 
@@ -359,6 +379,7 @@ async fn main() -> std::io::Result<()> {
     
     let app_state = Arc::new(AppState {
         downloads: RwLock::new(HashMap::new()),
+        semaphore: tokio::sync::Semaphore::new(1),
     });
 
     let server = HttpServer::new(move || {
