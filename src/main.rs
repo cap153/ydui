@@ -309,6 +309,11 @@ async fn handle_static_files(path: web::Path<String>) -> HttpResponse {
         .unwrap_or_else(|| HttpResponse::NotFound().body("404 Not Found"))
 }
 
+async fn get_tasks(data: web::Data<Arc<AppState>>) -> Result<HttpResponse> {
+    let downloads = data.downloads.read().await;
+    Ok(HttpResponse::Ok().json(&*downloads))
+}
+
 async fn list_downloads() -> Result<HttpResponse> {
     let download_path = std::env::current_dir()?.join(DOWNLOADS_DIR);
     let mut files = Vec::new();
@@ -397,6 +402,7 @@ async fn main() -> std::io::Result<()> {
                     .route("/status/{id}", web::get().to(get_status))
                     .route("/list", web::get().to(list_downloads))
                     .route("/restart", web::post().to(restart_server))
+                    .route("/tasks", web::get().to(get_tasks))
             )
             .service(
                 actix_files::Files::new("/downloads", DOWNLOADS_DIR)

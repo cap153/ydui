@@ -230,23 +230,39 @@ class DownloadManager {
         if (!this.downloadsContainer) return;
 
         try {
-            const response = await fetch('/api/list');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
-            const files = await response.json();
+            const [filesResponse, tasksResponse] = await Promise.all([
+                fetch('/api/list'),
+                fetch('/api/tasks')
+            ]);
+
+            if (!filesResponse.ok) throw new Error(`HTTP error! status: ${filesResponse.status}`);
+            if (!tasksResponse.ok) throw new Error(`HTTP error! status: ${tasksResponse.status}`);
+
+            const [files, tasks] = await Promise.all([
+                filesResponse.json(),
+                tasksResponse.json()
+            ]);
+
             this.downloadsContainer.innerHTML = '';
 
-            if (files.length === 0) {
+            // 显示正在进行的任务
+            Object.entries(tasks).forEach(([id, task]) => {
+                if (task.status !== "下载完成") {
+                    this.addDownloadItem(id, task.url || "正在下载");
+                }
+            });
+
+            // 显示已完成下载的文件
+            if (files.length > 0) {
+                files.sort((a, b) => b.created_time - a.created_time)
+                    .forEach(file => this.createDownloadItem(file));
+            } else if (Object.keys(tasks).length === 0) {
                 this.downloadsContainer.innerHTML = `
                     <div class="download-item">
                         <div class="status">${window.i18n.getText('no-files')}</div>
                     </div>
                 `;
-                return;
             }
-
-            files.sort((a, b) => b.created_time - a.created_time)
-                .forEach(file => this.createDownloadItem(file));
         } catch (error) {
             this.downloadsContainer.innerHTML = `
                 <div class="download-item">
