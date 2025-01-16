@@ -326,13 +326,16 @@ async fn list_downloads() -> Result<HttpResponse> {
                         entry.file_name().to_str().map(String::from),
                         metadata.created()
                     ) {
-                        files.push(FileInfo {
-                            filename,
-                            created_time: created
-                                .duration_since(std::time::UNIX_EPOCH)
-                                .unwrap_or_default()
-                                .as_secs(),
-                        });
+                        // 过滤掉包含part后缀和aria2的文件
+                        if !filename.contains(".part") && !filename.contains("aria2") {
+                            files.push(FileInfo {
+                                filename,
+                                created_time: created
+                                    .duration_since(std::time::UNIX_EPOCH)
+                                    .unwrap_or_default()
+                                    .as_secs(),
+                            });
+                        }
                     }
                 }
             }
