@@ -248,7 +248,24 @@ class DownloadManager {
             // 显示正在进行的任务
             Object.entries(tasks).forEach(([id, task]) => {
                 if (task.status !== "下载完成") {
-                    this.addDownloadItem(id, task.url || "正在下载");
+                    const url = task.url ||
+                               (task.log && task.log.find(log => log.includes('https://'))) ||
+                               "正在下载";
+                    this.addDownloadItem(id, url);
+                    if (task.progress) {
+                        const item = this.downloadsContainer.querySelector(`[data-id="${id}"]`);
+                        if (item) {
+                            const progressBar = item.querySelector('.progress-bar');
+                            const statusText = item.querySelector('.status');
+                            if (progressBar) {
+                                progressBar.style.width = `${task.progress}%`;
+                                progressBar.classList.remove('loading');
+                            }
+                            if (statusText) {
+                                statusText.textContent = task.status;
+                            }
+                        }
+                    }
                 }
             });
 
