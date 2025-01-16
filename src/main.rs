@@ -327,7 +327,7 @@ async fn list_downloads() -> Result<HttpResponse> {
                         metadata.created()
                     ) {
                         // 过滤掉包含part后缀和aria2的文件
-                        if !filename.contains(".part") && !filename.contains("aria2") {
+                        if !filename.contains(".part") && !filename.contains(".aria2") && !filename.contains(".ytdl") {
                             files.push(FileInfo {
                                 filename,
                                 created_time: created
