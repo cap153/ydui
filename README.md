@@ -76,7 +76,6 @@ docker build -t ydui .
 
 2. Run container:
 ```bash
-mkdir downloads
 docker-compose up -d
 ```
 

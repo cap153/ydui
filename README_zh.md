@@ -76,7 +76,6 @@ docker build -t ydui .
 
 2. 运行容器：
 ```bash
-mkdir downloads
 docker-compose up -d
 ```
 
